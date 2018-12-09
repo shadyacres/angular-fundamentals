@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
 
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a>All Events</a></li>
-            <li><a href="">Create Event</a></li>
+            <li><a [routerLink]="['./events']" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">All Events</a></li>
+            <li><a [routerLink]="['./events/new']"  routerLinkActive="active">Create Event</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 Events <span class="caret"></span>
@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
           </ul>
           <div class="navbar-header navbar-right">
             <ul class="nav navbar-nav">
-              <li><a>Welcome John</a></li>
+              <li><a [routerLink]="['./user/profile']">Welcome John</a></li>
             </ul>
           </div>
           <form id="searchForm" class="navbar-form navbar-right">
@@ -44,6 +44,7 @@ import { Component } from '@angular/core';
    .nav.navbar-nav { font-size: 15px; }
    #searchForm {margin-right: 100px; }
    @media (max-width: 1200px) { #searchForm { display: none; } }
+   li > a.active { color: #F97924; }
   `]
 })
 export class NavBarComponent {}
