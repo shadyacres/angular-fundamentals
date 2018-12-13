@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../shared/event.service';
 import { ActivatedRoute } from '@angular/router';
+import { IEvent } from '../shared';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -17,7 +18,7 @@ import { ActivatedRoute } from '@angular/router';
 
   <div class="row">
     <div class="col-md-6">
-      <div><strong>Date:</strong> {{event?.date}}</div>
+      <div><strong>Date:</strong> {{event?.date.toLocaleDateString()}}</div>
       <div><strong>Time:</strong> {{event?.time}}</div>
       <div><strong>Price:</strong> \${{ event?.price }}</div>
     </div>
@@ -37,7 +38,7 @@ styles: [`
 })
 
 export class EventDetailsComponent implements OnInit {
-  event: any;
+  event: IEvent;
 
   constructor(private eventService: EventService, private route: ActivatedRoute) { }
 

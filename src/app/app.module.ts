@@ -23,7 +23,7 @@ import {  } from './events/event-details/event-route-activator.service';
   // imports first (dependencies)
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
   declarations: [
     EventsAppComponent,

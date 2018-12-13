@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { IEvent } from '.';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -6,7 +7,7 @@ import { Component, Input } from '@angular/core';
   template: `
   <div [routerLink]="['/events', event.id]" class="well hoverwell thumbnail">
   <h2>{{event?.name}}</h2>
-  <div>Date: {{event?.date}}</div>
+  <div>Date: {{event?.date.toLocaleDateString()}}</div>
   <div>Time: {{event?.time}}</div>
   <div>Price: \${{event?.price}}</div>
   <div [hidden]="event?.location === undefined">
@@ -24,7 +25,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class EventThumbnailComponent {
-  @Input() event: any;
+  @Input() event: IEvent;
 
   someProp = 'Some string';
 }

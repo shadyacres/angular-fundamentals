@@ -1,16 +1,15 @@
-import { Injectable } from "@angular/core";
-import { Resolve } from "@angular/router";
-import { EventService } from "./shared/event.service";
+import { IEvent } from './shared/event.model';
+import { Injectable } from '@angular/core';
+import { Resolve } from '@angular/router';
+import { EventService } from './shared/event.service';
 import { map } from 'rxjs/operators';
 
 @Injectable()
-export class EventListResolver implements Resolve<any> {
-  
+export class EventListResolver implements Resolve<IEvent[]> {
+
   constructor(private eventService: EventService) { }
 
   resolve() {
-    const retVal = this.eventService.getEvents().pipe(map(events => events));
-
-    return retVal;
+    return this.eventService.getEvents().pipe(map(events => events));
   }
 }

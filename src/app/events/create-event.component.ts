@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 
 @Component ({
@@ -20,7 +20,7 @@ export class CreateEventComponent {
 
 constructor(private router: Router) { }
 
-  isDirty: boolean = true;
+  isDirty = true;
 
   cancel() {
     this.router.navigate(['/events']);
