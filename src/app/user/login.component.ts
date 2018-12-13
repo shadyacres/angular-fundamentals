@@ -5,14 +5,14 @@ import { Component } from '@angular/core';
 <h1>Login</h1>
 <hr>
 <div class="col-md-4">
-  <form autocomplete="off">
+  <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)" autocomplete="off">
     <div class="form-group" >
       <label for="userName">User Name:</label>
-      <input id="userName" type="text" class="form-control" placeholder="User Name..." />
+      <input (ngModel)="userName" name="userName" type="text" class="form-control" placeholder="User Name..." />
     </div>
     <div class="form-group" >
       <label for="password">Password:</label>
-      <input id="password" type="password" class="form-control"placeholder="Password..." />
+      <input (ngModel)="password" name="password" id="password" type="password" class="form-control"placeholder="Password..." />
     </div>
 
     <button type="submit" class="btn btn-primary">Login</button>
@@ -20,4 +20,11 @@ import { Component } from '@angular/core';
   </form>
 </div>`
 })
-export class LoginComponent { }
+export class LoginComponent {
+  userName;
+  password;
+
+  login(formValues) {
+    console.log(formValues);
+  }
+}
