@@ -1,4 +1,6 @@
+import { AuthService } from './../user/auth.service';
 import { Component } from '@angular/core';
+import { IUser } from '../user/user.model';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,7 +25,12 @@ import { Component } from '@angular/core';
           </ul>
           <div class="navbar-header navbar-right">
             <ul class="nav navbar-nav">
-              <li><a [routerLink]="['./user/profile']">Welcome John</a></li>
+              <li *ngIf="!authService.isAuthenticated()">
+                <a [routerLink]="['./user/login']">Login</a>
+                </li>
+              <li *ngIf="authService.isAuthenticated()">
+                <a [routerLink]="['./user/profile']">Welcome {{authService.currentUser.userName}}</a>
+              </li>
             </ul>
           </div>
           <form id="searchForm" class="navbar-form navbar-right">
@@ -47,4 +54,9 @@ import { Component } from '@angular/core';
    li > a.active { color: #F97924; }
   `]
 })
-export class NavBarComponent {}
+export class NavBarComponent {
+  user: IUser;
+
+  constructor(public authService: AuthService) { }
+
+}

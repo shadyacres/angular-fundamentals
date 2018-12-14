@@ -26,6 +26,4 @@ import { IEvent } from '.';
 
 export class EventThumbnailComponent {
   @Input() event: IEvent;
-
-  someProp = 'Some string';
 }

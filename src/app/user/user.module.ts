@@ -17,7 +17,6 @@ import { userRoutes } from './user.routes';
     LoginComponent
   ],
   providers: [
-
   ]
 })
 export class UserModule { }

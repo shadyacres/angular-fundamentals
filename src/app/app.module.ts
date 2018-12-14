@@ -18,6 +18,7 @@ import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './navigation/navbar.component';
 import { Error404Component } from './errors/404.component';
 import {  } from './events/event-details/event-route-activator.service';
+import { AuthService } from './user/auth.service';
 
 @NgModule({
   // imports first (dependencies)
@@ -37,7 +38,8 @@ import {  } from './events/event-details/event-route-activator.service';
   // services
   providers: [EventService, ToastrService, EventRouteActivator,
   { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
-  EventListResolver ],
+  EventListResolver,
+  AuthService ],
   bootstrap: [EventsAppComponent]
 })
 export class AppModule { }
