@@ -7,7 +7,7 @@ import { IEvent } from '.';
   template: `
   <div [routerLink]="['/events', event.id]" class="well hoverwell thumbnail">
   <h2>{{event?.name}}</h2>
-  <div>Date: {{event?.date.toLocaleDateString()}}</div>
+  <div>Date: {{event?.date}}</div>
   <div>Time: {{event?.time}}</div>
   <div>Price: \${{event?.price}}</div>
   <div [hidden]="event?.location === undefined">

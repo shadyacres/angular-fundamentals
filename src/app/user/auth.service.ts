@@ -17,4 +17,8 @@ export class AuthService {
   isAuthenticated(): boolean {
     return this.currentUser !== undefined && this.currentUser !== null;
   }
+
+  updateCurrentUser(firstName: string, lastName: string): void {
+    this.currentUser = { ...this.currentUser, firstName: firstName, lastName: lastName};
+  }
 }
