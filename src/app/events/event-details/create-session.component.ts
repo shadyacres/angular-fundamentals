@@ -1,8 +1,11 @@
 import { ISession, restrictedWords } from './../shared';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
+  // tslint:disable-next-line:component-selector
+  selector: 'create-session',
   template: `
   <div class="col-md-12">
   <h3>Create Session</h3>
@@ -42,19 +45,22 @@ import { FormControl, Validators, FormGroup } from '@angular/forms';
     </div>
     <div class="form-group" [ngClass]="{'error': abstract.invalid && abstract.dirty}">
       <label for="abstract">Abstract:</label>
-      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors?.required">Required</em>
-      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors?.maxLength">Max length is 400 characters</em>
-      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors?.restrictedWords">Invalid entry: {{abstract.errors.restrictedWords}}</em>
+      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors['required']">Required</em>
+      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors['maxlength']">Max length is 400 characters</em>
+      <em *ngIf="abstract.invalid && abstract.dirty && abstract.errors['restrictedWords']">
+        Invalid entry: {{abstract.errors['restrictedWords']}}
+      </em>
       <textarea formControlName="abstract" id="abstract" rows=3 class="form-control" placeholder="abstract..."></textarea>
     </div>
     <button type="submit" [disabled]="!newSessionForm.valid" class="btn btn-primary">Save</button>
-    <button type="button" class="btn btn-default">Cancel</button>
+    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
   </form>
 </div>`,
 
 styles: [`
 em { float:right; color:#E05C65; padding-left: 10px; }
 .error input {background-color: #E3C3C5;}
+.error textarea {background-color: #E3C3C5; color: #999 }
 .error ::-webkit-input-placeholder { color: #999; }
 .error ::-moz-placeholder { color: #999; }
 .error :-moz-placeholder { color: #999; }
@@ -62,12 +68,17 @@ em { float:right; color:#E05C65; padding-left: 10px; }
 `]
 })
 export class CreateSessionComponent implements OnInit {
+  @Output() saveNewSession = new EventEmitter();
+  @Output() cancelSave = new EventEmitter();
   public newSessionForm: FormGroup;
   public name: FormControl;
   public presenter: FormControl;
   public duration: FormControl;
   public level: FormControl;
   public abstract: FormControl;
+
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.name = new FormControl('', [Validators.required]);
@@ -96,6 +107,10 @@ export class CreateSessionComponent implements OnInit {
       voters: []
     };
 
-    console.log(session);
+    this.saveNewSession.emit(session);
+  }
+
+  cancel() {
+    this.cancelSave.emit();
   }
 }

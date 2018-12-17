@@ -10,24 +10,24 @@ import { IEvent } from '.';
   <hr>
   <div class="col-md-6">
     <form #newEventForm="ngForm" (ngSubmit)="saveEvent(newEventForm.value)" autocomplete="off" novalidate>
-      <div class="form-group" [ngClass]="{'error': newEventForm.controls.name?.invalid && newEventForm.controls.name?.touched}">
-        <label for="eventName">Event Name:</label>
-        <em *ngIf="newEventForm.controls.name?.invalid && (newEventForm.controls.name?.touched)">Required</em>
+      <div class="form-group" [ngClass]="{'error': newEventForm.controls['name']?.invalid && newEventForm.controls['name']?.touched}">
+        <label for="name">Event Name:</label>
+        <em *ngIf="newEventForm.controls['name']?.invalid && (newEventForm.controls['name']?.touched)">Required</em>
         <input (ngModel)="newEvent.name" name="name" required id="name" type="text" class="form-control" placeholder="Name of your event..." />
       </div>
-      <div class="form-group" [ngClass]="{'error': newEventForm.controls.date?.invalid && newEventForm.controls.date?.touched}">
+      <div class="form-group" [ngClass]="{'error': newEventForm.controls['date']?.invalid && newEventForm.controls['date']?.touched}">
         <label for="eventDate">Event Date:</label>
-        <em *ngIf="newEventForm.controls.date?.invalid && (newEventForm.controls.date?.touched)">Required</em>
+        <em *ngIf="newEventForm.controls['date']?.invalid && (newEventForm.controls['date']?.touched)">Required</em>
         <input (ngModel)="newEvent.date" name="date" required id="eventDate" type="text" class="form-control" placeholder="format (mm/dd/yyyy)..." />
       </div>
-      <div class="form-group" [ngClass]="{'error': newEventForm.controls.time?.invalid && newEventForm.controls.time?.touched}">
+      <div class="form-group" [ngClass]="{'error': newEventForm.controls['time']?.invalid && newEventForm.controls['time']?.touched}">
         <label for="eventTime">Event Time:</label>
-        <em *ngIf="newEventForm.controls.time?.invalid && (newEventForm.controls.time?.touched)">Required</em>
+        <em *ngIf="newEventForm.controls['time']?.invalid && (newEventForm.controls['time']?.touched)">Required</em>
         <input (ngModel)="newEvent.time" name="time" required id="eventTime" type="text" class="form-control" placeholder="start and end time..." />
       </div>
-      <div class="form-group" [ngClass]="{'error': newEventForm.controls.price?.invalid && newEventForm.controls.price?.touched}">
+      <div class="form-group" [ngClass]="{'error': newEventForm.controls['price']?.invalid && newEventForm.controls['price']?.touched}">
         <label for="eventPrice">Event Price:</label>
-        <em *ngIf="newEventForm.controls.price?.invalid && (newEventForm.controls.price?.touched)">Required</em>
+        <em *ngIf="newEventForm.controls['price']?.invalid && (newEventForm.controls['price']?.touched)">Required</em>
         <input (ngModel)="newEvent.price" name="price" required id="eventPrice" type="text" type="number" class="form-control" placeholder="event price..." />
       </div>
       <div ngModelGroup="location">
@@ -39,7 +39,7 @@ import { IEvent } from '.';
           <div class="col-md-6">
             <input (ngModel)="newEvent.city" name="city" id="city" type="text" class="form-control" placeholder="City..." />
           </div>
-          <div class="col-md-6" >
+          <div class="col-md-6">
             <input (ngModel)="newEvent.country" name="country" id="country" type="text" class="form-control" placeholder="Country..." />
           </div>
         </div>
@@ -57,8 +57,8 @@ import { IEvent } from '.';
              *ngIf="newEventForm.controls.imageUrl?.valid"/>
       </div>
 
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button type="button" [disabled]="newEventForm.invalid" class="btn btn-default" (click)="cancel()">Cancel</button>
+      <button type="submit" [disabled]="newEventForm.invalid"  class="btn btn-primary">Save</button>
+      <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
     </form>
   </div>
   `,
@@ -71,7 +71,6 @@ import { IEvent } from '.';
   .error :-ms-input-placeholder { color: #999; }
   `]
 })
-
 export class CreateEventComponent {
 
 constructor(private router: Router, private eventService: EventService) { }
