@@ -1,3 +1,4 @@
+import { CollapsibleWellComponent } from './common/collapsible-well.component';
 import { SessionsListComponent } from './events/event-details/sessions-list.component';
 import { CreateSessionComponent } from './events/event-details/create-session.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +21,6 @@ import {
 import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './navigation/navbar.component';
 import { Error404Component } from './errors/404.component';
-import {  } from './events/event-details/event-route-activator.service';
 import { AuthService } from './user/auth.service';
 
 @NgModule({
@@ -39,6 +39,7 @@ import { AuthService } from './user/auth.service';
     NavBarComponent,
     CreateEventComponent,
     CreateSessionComponent,
+    CollapsibleWellComponent,
     SessionsListComponent,
     Error404Component,
   ],
