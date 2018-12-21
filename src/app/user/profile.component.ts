@@ -12,7 +12,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
     <form [formGroup]="profileForm" autocomplete="off" novalidate (ngSubmit)="saveProfile(profileForm.value)">
       <div class="form-group" [ngClass]="{'error' : !validateFirstName() }">
       <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.required">Required</em>
-      <em *ngIf="!validateFirstName() &&  profileForm.controls.firstName.errors.pattern">Must start with a letter</em>
+      <em *ngIf="!validateFirstName() && profileForm.controls.firstName.errors.pattern">Must start with a letter</em>
         <label for="firstName">First Name:</label>
         <input formControlName="firstName" id="firstName" type="text" class="form-control" placeholder="First Name..." />
       </div>

@@ -4,11 +4,12 @@ import { SessionsListComponent } from './events/event-details/sessions-list.comp
 import { CreateSessionComponent } from './events/event-details/create-session.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appRoutes } from '../app/routes';
-import { ToastrService } from './common/toastr.service';
+import { TOASTR_TOKEN, Toastr } from './common/toastr.service';
 import { EventThumbnailComponent } from './events/event-thumbnail.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+
 
 import {
   EventsListComponent,
@@ -23,6 +24,8 @@ import { EventsAppComponent } from './events-app.component';
 import { NavBarComponent } from './navigation/navbar.component';
 import { Error404Component } from './errors/404.component';
 import { AuthService } from './user/auth.service';
+
+declare let toastr: Toastr;
 
 @NgModule({
   // imports first (dependencies)
@@ -47,7 +50,9 @@ import { AuthService } from './user/auth.service';
     DurationPipe
   ],
   // services
-  providers: [EventService, ToastrService, EventRouteActivator,
+  providers: [EventService,
+  { provide: TOASTR_TOKEN, useValue: toastr },
+  EventRouteActivator,
   { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
   EventListResolver,
   AuthService ],
