@@ -33,16 +33,41 @@ import { IEvent } from '../shared';
   </div>
 
   <hr />
-  <div class="row">
+  <div class="row" style="margin-bottom:10px;">
     <div class="col-md-2">
       <h3 style="margin:0">Sessions</h3>
     </div>
 
+    <div class="col-md-7">
+      <div class="btn-group btn-group-sm" style="margin-right:20px">
+        <button class="btn btn-default" [class.active]="sortBy === 'name'" (click)="sortBy = 'name'">
+          Name
+        </button>
+        <button class="btn btn-default" [class.active]="sortBy === 'votes'" (click)="sortBy = 'votes'">
+        By Votes
+      </button>
+      </div>
+      <div class="btn-group btn-group-sm">
+        <button class="btn btn-default" [class.active]="filterBy === 'all'" (click)="makeActive('all')">
+          All
+        </button>
+
+        <button class="btn btn-default" [class.active]="filterBy === 'beginner'" (click)="makeActive('beginner')">
+          Beginner
+        </button>
+        <button class="btn btn-default" [class.active]="filterBy === 'intermediate'" (click)="makeActive('intermediate')">
+          Intermediate
+        </button>
+        <button class="btn btn-default" [class.active]="filterBy === 'advanced'" (click)="makeActive('advanced')">
+          Advanced
+        </button>
+      </div>
+    </div>
     <div class="col-md-2">
       <a (click)="addSession()">Add Session</a>
     </div>
   </div>
-  <sessions-list *ngIf="!addMode" [sessions]="event?.sessions"></sessions-list>
+  <sessions-list *ngIf="!addMode" [filterBy]="filterBy" [sortBy]="sortBy" [sessions]="event?.sessions"></sessions-list>
   <create-session *ngIf="addMode" (saveNewSession)="saveNewSession($event)" (cancelSave)="cancelSave()"></create-session>
 </div>`,
 styles: [`
@@ -53,8 +78,11 @@ styles: [`
 })
 
 export class EventDetailsComponent implements OnInit {
+
   event: IEvent;
   addMode: boolean;
+  filterBy: filterString  = 'all';
+  sortBy: sortString = 'name';
 
   constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
@@ -77,4 +105,11 @@ export class EventDetailsComponent implements OnInit {
   cancelSave(): void {
     this.addMode = false;
   }
+
+  makeActive(filterBy: filterString ) {
+    this.filterBy = filterBy;
+  }
 }
+
+export type filterString = 'all' | 'beginner' | 'intermediate' | 'advanced';
+export type sortString = 'name' | 'votes';
