@@ -1,3 +1,4 @@
+import { VoterService } from './events/event-details/voter.service';
 import { ModalTriggerDirective } from './common/modal-trigger.directive';
 import { DurationPipe } from './events/shared/duration.pipe';
 import { CollapsibleWellComponent } from './common/collapsible-well.component';
@@ -18,7 +19,8 @@ import {
   EventDetailsComponent,
   CreateEventComponent,
   EventRouteActivator,
-  EventListResolver
+  EventListResolver,
+  UpvoteComponent
 } from './events';
 
 import { EventsAppComponent } from './events-app.component';
@@ -49,20 +51,21 @@ const  jQuery = window['$'];
     SessionsListComponent,
     Error404Component,
     SimpleModalComponent,
+    UpvoteComponent,
 
     DurationPipe,
 
     ModalTriggerDirective
   ],
   // services
-  providers: [EventService,
+  providers: [EventService, VoterService,
   { provide: TOASTR_TOKEN, useValue: toastr },
   { provide: JQ_TOKEN, useValue: jQuery },
   EventRouteActivator,
   { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
   EventListResolver,
   AuthService ],
-  bootstrap: [EventsAppComponent]
+  bootstrap: [EventsAppComponent],
 })
 export class AppModule { }
 

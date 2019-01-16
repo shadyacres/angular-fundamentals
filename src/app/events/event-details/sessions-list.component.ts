@@ -1,6 +1,8 @@
+import { AuthService } from './../../user/auth.service';
 import { filterString, sortString } from './event-details.component';
 import { ISession } from './../shared/event.model';
 import { Component, Input, OnChanges } from '@angular/core';
+import { VoterService } from './voter.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -8,6 +10,11 @@ import { Component, Input, OnChanges } from '@angular/core';
   template: `
 
     <div class="row" *ngFor="let session of filteredSessions">
+    <div *ngIf="auth.isAuthenticated()">
+      <div class="col-md-1">
+        <upvote (vote)="toggleVote(session)" [count]="session.voters.length" [voted]="userHasVoted(session)"></upvote>
+      </div>
+      </div>
       <div class="col-md-10">
         <collapsible-well [title]="session.name">
           <div well-title>
@@ -31,6 +38,10 @@ export class SessionsListComponent implements OnChanges {
   @Input() sortBy: sortString;
   filteredSessions: ISession[] = [];
 
+  constructor(public auth: AuthService, private voterService: VoterService) {
+
+  }
+
   ngOnChanges() {
     if (this.sessions) {
       this.filterSessions(this.filterBy);
@@ -44,6 +55,22 @@ export class SessionsListComponent implements OnChanges {
     } else {
       this.filteredSessions = this.sessions.filter(s => s.level.toLocaleLowerCase() === filter.toLocaleLowerCase()).slice(0);
     }
+  }
+
+  toggleVote(session: ISession) {
+    if (this.userHasVoted(session)) {
+      this.voterService.deleteVoter(session, this.auth.currentUser.userName);
+    } else {
+      this.voterService.addVoter(session, this.auth.currentUser.userName);
+    }
+
+    if (this.sortBy === 'votes') {
+      this.filteredSessions.sort(this.sortByVotesDesc);
+    }
+  }
+
+  userHasVoted(session: ISession) {
+    return this.voterService.userHasVoted(session, this.auth.currentUser.userName);
   }
 
   private sortByNameAsc(s1: ISession, s2: ISession): number {
