@@ -1,6 +1,8 @@
+import { EventService } from './../events/shared/event.service';
 import { AuthService } from './../user/auth.service';
 import { Component } from '@angular/core';
 import { IUser } from '../user/user.model';
+import { ISession } from '../events';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -33,19 +35,30 @@ import { IUser } from '../user/user.model';
               </li>
             </ul>
           </div>
-          <form id="searchForm" class="navbar-form navbar-right">
+          <form id="searchForm" (ngSubmit)="searchSessions(searchTerm)" class="navbar-form navbar-right">
             <div class="form-group">
               <input
+                [(ngModel)]="searchTerm"
+                name="searchTerm"
                 type="text"
                 class="form-control"
                 placeholder="Search Sessions"
               />
             </div>
-            <button class="btn btn-default">Search</button>
+            <button class="btn btn-default" modal-trigger="searchResults">
+              Search
+            </button>
           </form>
         </div>
       </div>
     </div>
+
+    <simple-modal closeOnBodyClick="true" elementId="searchResults" title="Matching Sessions">
+      <div class="list-group">
+        <a class="list-group-item" *ngFor="let session of foundSessions"
+           [routerLink]="['/events', session.eventId]">{{session.name}}</a>
+      </div>
+    </simple-modal>
   `,
   styles: [`
    .nav.navbar-nav { font-size: 15px; }
@@ -56,7 +69,17 @@ import { IUser } from '../user/user.model';
 })
 export class NavBarComponent {
   user: IUser;
+  searchTerm = '';
+  foundSessions: ISession[];
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, private eventService: EventService) { }
 
+  searchSessions(searchTerm) {
+    this.eventService.searchSessions(searchTerm).subscribe
+      (sessions => {
+        this.foundSessions = sessions;
+      });
+
+
+  }
 }
