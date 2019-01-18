@@ -20,7 +20,8 @@ import {
   CreateEventComponent,
   EventRouteActivator,
   EventListResolver,
-  UpvoteComponent
+  UpvoteComponent,
+  LocationValidator
 } from './events';
 
 import { EventsAppComponent } from './events-app.component';
@@ -55,7 +56,8 @@ const  jQuery = window['$'];
 
     DurationPipe,
 
-    ModalTriggerDirective
+    ModalTriggerDirective,
+    LocationValidator
   ],
   // services
   providers: [EventService, VoterService,

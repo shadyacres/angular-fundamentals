@@ -30,8 +30,11 @@ import { IEvent } from '.';
         <em *ngIf="newEventForm.controls['price']?.invalid && (newEventForm.controls['price']?.touched)">Required</em>
         <input (ngModel)="newEvent.price" name="price" required id="eventPrice" type="text" type="number" class="form-control" placeholder="event price..." />
       </div>
-      <div ngModelGroup="location">
+      <div ngModelGroup="location" #locationGroup="ngModelGroup" validateLocation>
         <div class="form-group">
+        <em *ngIf="locationGroup?.invalid && locationGroup.touched">
+          You must enter either an address or a url.
+        </em>
           <label for="address">Event Location:</label>
           <input (ngModel)="newEvent.address" name="address" id="address" type="text" class="form-control" placeholder="Address of event..." />
         </div>
@@ -46,7 +49,7 @@ import { IEvent } from '.';
       </div>
       <div class="form-group">
         <label for="onlineUrl">Online Url:</label>
-        <input (ngModel)="newEvent.onlineUrl" name="onlineUrl" id="onlineUrl" type="text" class="form-control" placeholder="Online Url..." />
+        <input (ngModel)="newEvent.onlineUrl" name="onlineUrl" id="onlineUrl" type="text" class="form-control" placeholder="Online Url..." (change)="locationGroup.control.controls.address.updateValueAndValidity()" />
       </div>
       <div class="form-group" [ngClass]="{'error': newEventForm.controls.imageUrl?.invalid && newEventForm.controls.imageUrl?.touched}">
         <label for="imageUrl">Image:</label>
