@@ -11,6 +11,7 @@ import { EventThumbnailComponent } from './events/event-thumbnail.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 
 import {
@@ -18,10 +19,10 @@ import {
   EventService,
   EventDetailsComponent,
   CreateEventComponent,
-  EventRouteActivator,
   EventListResolver,
   UpvoteComponent,
-  LocationValidator
+  LocationValidator,
+  EventResolver
 } from './events';
 
 import { EventsAppComponent } from './events-app.component';
@@ -39,6 +40,7 @@ const  jQuery = window['$'];
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(appRoutes),
+    HttpClientModule
   ],
   declarations: [
     EventsAppComponent,
@@ -63,8 +65,7 @@ const  jQuery = window['$'];
   providers: [EventService, VoterService,
   { provide: TOASTR_TOKEN, useValue: toastr },
   { provide: JQ_TOKEN, useValue: jQuery },
-  EventRouteActivator,
-  { provide: 'canDeactivateCreateEvent', useValue: checkDirtyState },
+  EventResolver,
   EventListResolver,
   AuthService ],
   bootstrap: [EventsAppComponent],

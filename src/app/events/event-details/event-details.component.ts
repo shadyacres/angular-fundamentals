@@ -70,7 +70,7 @@ import { IEvent } from '../shared';
   <sessions-list *ngIf="!addMode" [filterBy]="filterBy" [sortBy]="sortBy" [sessions]="event?.sessions"></sessions-list>
   <create-session *ngIf="addMode" (saveNewSession)="saveNewSession($event)" (cancelSave)="cancelSave()"></create-session>
 </div>`,
-styles: [`
+  styles: [`
   .container { padding-left:20px; padding-right:20px; }
   .event-image { height: 100px; }
   a { cursor: pointer; }
@@ -81,21 +81,21 @@ export class EventDetailsComponent implements OnInit {
 
   event: IEvent;
   addMode: boolean;
-  filterBy: filterString  = 'all';
+  filterBy: filterString = 'all';
   sortBy: sortString = 'name';
 
   constructor(private eventService: EventService, private route: ActivatedRoute) { }
 
   // Note: Does not reset state by default. manually reset state now.
   ngOnInit(): void {
-    this.route.params.forEach((params: Params) => {
-      this.event = this.eventService.getEventById(+params['id']);
+    this.route.data.forEach((data) => {
+      this.event = data['event'];
       this.addMode = false;
     });
   }
 
   addSession(): void {
-      this.addMode = true;
+    this.addMode = true;
   }
 
   saveNewSession(session: ISession): void {
@@ -110,7 +110,7 @@ export class EventDetailsComponent implements OnInit {
     this.addMode = false;
   }
 
-  makeActive(filterBy: filterString ) {
+  makeActive(filterBy: filterString) {
     this.filterBy = filterBy;
   }
 }

@@ -1,26 +1,27 @@
 import { IEvent, ISession } from './event.model';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class EventService {
+
+  constructor(private http: HttpClient) { }
+
   getEvents(): Observable<IEvent[]> {
-    const subject = new Subject<IEvent[]>();
-
-    setTimeout(() => {
-      subject.next(EVENTS);
-      subject.complete();
-     }, 100);
-
-    return subject;
+    return this.http.get<IEvent[]>('/api/events')
+      .pipe(catchError(this.handleError<IEvent[]>('getEvents', [])));
   }
 
-  getEventById(id: number): IEvent {
-    return EVENTS.find(e => e.id === id);
+  getEventById(id: number): Observable<IEvent> {
+    return this.http.get<IEvent>('/api/events/' + id)
+    .pipe(catchError(this.handleError<IEvent>('getEventById', null)));
+    // return EVENTS.find(e => e.id === id);
   }
 
   saveEvent(event: IEvent) {
-    event = {...event, id: 999, sessions: [] };
+    event = { ...event, id: 999, sessions: [] };
     console.log(event);
     EVENTS.push(event);
   }
@@ -37,12 +38,12 @@ export class EventService {
     EVENTS.forEach(event => {
       const matchingSessions = event.sessions.filter(session =>
         session.name.toLocaleLowerCase().indexOf(term) > -1);
-        const matchingSessionsAny = matchingSessions.map((session: any) => {
-          session.eventId = event.id;
-          return session;
-        });
+      const matchingSessionsAny = matchingSessions.map((session: any) => {
+        session.eventId = event.id;
+        return session;
+      });
 
-        results = results.concat(matchingSessionsAny);
+      results = results.concat(matchingSessionsAny);
     });
 
     const emitter = new EventEmitter(true);
@@ -51,7 +52,15 @@ export class EventService {
     }, 100);
     return emitter;
   }
+
+  private handleError<T>(operation = 'operation', result: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
+  }
 }
+
 
 const EVENTS: IEvent[] = [
   {
