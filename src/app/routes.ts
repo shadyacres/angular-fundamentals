@@ -12,7 +12,7 @@ import { UserModule } from './user/user.module';
 
 export const appRoutes = [
  { path: 'events', component: EventsListComponent, resolve: { events: EventListResolver } },
- { path: 'events/new', component: CreateEventComponent, canDeactivate: ['canDeactivateCreateEvent'] },
+ { path: 'events/new', component: CreateEventComponent },
  { path: 'events/session/new', component: CreateSessionComponent },
  { path: 'events/:id', component: EventDetailsComponent, resolve:  { event: EventResolver } },
  { path: '404', component: Error404Component },

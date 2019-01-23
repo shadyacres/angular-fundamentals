@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './user/auth.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,6 +8,10 @@ import { Component } from '@angular/core';
   <nav-bar></nav-bar>
   <router-outlet></router-outlet>`
 })
-export class EventsAppComponent {
-  title = 'ng-fundamentals';
+export class EventsAppComponent implements OnInit {
+  ngOnInit(): void {
+    this.auth.checkAuthenticationStatus();
+  }
+
+  constructor(private auth: AuthService) { }
 }

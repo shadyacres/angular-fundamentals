@@ -24,7 +24,9 @@ import { TOASTR_TOKEN, Toastr } from '../common/toastr.service';
       </div>
 
       <button type="submit" class="btn btn-primary">Save</button>
-      <button type="button" class="btn btn-default" (onclick)="cancel()">Cancel</button>
+      <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
+
+      <button type="button" class="btn btn-warning"  style="float:right" (click)="logout()">Logout</button>
     </form>
   </div>
 </div>
@@ -65,9 +67,14 @@ export class ProfileComponent implements OnInit {
 
   saveProfile() {
     if (this.profileForm.valid) {
-    this.authService.updateCurrentUser(this.firstName.value, this.lastName.value);
-    this.toastr.success("Profile Saved");
+    this.authService.updateCurrentUser(this.firstName.value, this.lastName.value).subscribe(_ => {
+      this.toastr.success('Profile Saved');
+    });
     }
+  }
+
+  logout() {
+    this.authService.logout().subscribe(_ => this.router.navigate(['user/login']));
   }
 
   validateFirstName(): boolean {

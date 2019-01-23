@@ -67,7 +67,7 @@ import { IEvent } from '../shared';
       <a (click)="addSession()">Add Session</a>
     </div>
   </div>
-  <sessions-list *ngIf="!addMode" [filterBy]="filterBy" [sortBy]="sortBy" [sessions]="event?.sessions"></sessions-list>
+  <sessions-list [eventId]="event?.id" *ngIf="!addMode" [filterBy]="filterBy" [sortBy]="sortBy" [sessions]="event?.sessions"></sessions-list>
   <create-session *ngIf="addMode" (saveNewSession)="saveNewSession($event)" (cancelSave)="cancelSave()"></create-session>
 </div>`,
   styles: [`
@@ -102,8 +102,9 @@ export class EventDetailsComponent implements OnInit {
     session.id = Math.max.apply(this.event.sessions.map(s => s.id)) + 1;
 
     this.event.sessions = [...this.event.sessions, session];
-    this.eventService.updateEvent(this.event);
-    this.addMode = false;
+    this.eventService.saveEvent(this.event).subscribe(_ => {
+      this.addMode = false;
+    });
   }
 
   cancelSave(): void {

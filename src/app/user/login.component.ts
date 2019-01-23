@@ -1,5 +1,5 @@
 import { AuthService } from './auth.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,27 +23,36 @@ import { Router } from '@angular/router';
     </span>
     <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
   </form>
+  <br />
+  <div *ngIf="loginInvalid" class="alert alert-danger">Invalid login</div>
 </div>`,
 styles: [`
   em { float:right; color:#E05C65; padding-left: 10px;}
 `]
 })
-export class LoginComponent {
-
+export class LoginComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   mouseoverLogin: boolean;
   userName;
   password;
+  loginInvalid = false;
 
-  login(formValues) {
-    this.authService.loginUser(formValues.userName, formValues.password);
-
-    if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/events']);
-    } else {
+  ngOnInit(): void {
+    if (this.authService.currentUser !== null && this.authService.currentUser !== undefined) {
       this.router.navigate(['/events']);
     }
+  }
+
+  login(formValues) {
+    this.authService.loginUser(formValues.userName, formValues.password)
+    .subscribe(resp => {
+      if (!resp) {
+        this.loginInvalid = true;
+      } else {
+        this.router.navigate(['/events']);
+      }
+    });
   }
 
   cancel() {
